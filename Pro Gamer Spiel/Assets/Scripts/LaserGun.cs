@@ -15,6 +15,9 @@ public class LaserGun : AWeapon {
 
         m_CurrentAmmunition = 15;
         m_Damage = 10;
+        m_MagazineCap = 15;
+        m_MaxAmmo = 90;
+
         lineRenderer = GetComponent<LineRenderer>();
     }
 

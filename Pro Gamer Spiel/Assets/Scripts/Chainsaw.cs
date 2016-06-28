@@ -13,6 +13,8 @@ public class Chainsaw : AWeapon {
 
         m_Damage = 35;
         m_CurrentAmmunition = 15;
+        m_MagazineCap = 15;
+        m_MaxAmmo = 90;
     }
 
     public override void Shoot(Vector3 _start, Vector3 _dir){
