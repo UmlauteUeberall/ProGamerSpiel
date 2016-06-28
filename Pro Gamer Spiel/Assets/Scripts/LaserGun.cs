@@ -5,7 +5,7 @@ public class LaserGun : AWeapon {
 	
     private float damage;
 
-    public void Shoot(Vector3 _start, Vector3 _dir){
+    public override void Shoot(Vector3 _start, Vector3 _dir){
 
         Ray ray = new Ray(_start, _dir);
 
@@ -13,7 +13,12 @@ public class LaserGun : AWeapon {
 
         if (Physics.Raycast(ray, out hit)) {
 
-            transform.gameObject.GetComponent<AEntity>();
+            AEntity entity = transform.gameObject.GetComponent<AEntity>();
+
+            if (entity != null) {
+                
+                entity.TakeDamage(damage * Time.deltaTime);
+            }
         }
     }
 }
