@@ -18,9 +18,9 @@ public abstract class AWeapon : MonoBehaviour
         m_owner = GetComponent<AEntity>();
     }
 
-    public virtual void Shoot(bool shoot)
+    public virtual void Shoot(Vector3 _start, Vector3 _dir)
     {
-        if (shoot && m_WeaponCoolDown <= 0)
+        if (m_WeaponCoolDown <= 0)
         {
             float randomRadius = m_MaxSpreadRadius;
             randomRadius = Random.Range(0, m_MaxSpreadRadius);
