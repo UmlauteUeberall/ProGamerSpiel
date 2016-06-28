@@ -9,6 +9,8 @@ public class LaserGun : AWeapon {
 
     private float disableLineRenderer = -1;
     private bool alreadyPlaying = false;
+   
+    private float audioStop = 0F;
 
     void Awake(){
 
@@ -27,15 +29,19 @@ public class LaserGun : AWeapon {
         if (disableLineRenderer <= 0) {
 
             lineRenderer.enabled = false;
-            AudioManager.StopLaserShot();
-            alreadyPlaying = false;
         }
         else {
 
             disableLineRenderer -= Time.deltaTime;
         }
 
-        Shoot(transform.position, Vector3.forward);
+        audioStop -= Time.deltaTime;
+
+        if (audioStop <= 0) {
+
+            AudioManager.StopLaserShot();
+            alreadyPlaying = false;
+        }
     }
 
     public override void Shoot(Vector3 _start, Vector3 _dir){
@@ -47,6 +53,12 @@ public class LaserGun : AWeapon {
         if (!alreadyPlaying) {
 
             AudioManager.PlayLaserShot();
+            alreadyPlaying = true;
+            audioStop = 0.1F;
+        }
+        else {
+
+            audioStop = 0.1F;
         }
 
         lineRenderer.enabled = true;
