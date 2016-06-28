@@ -9,43 +9,63 @@ public abstract class AWeapon : MonoBehaviour
     public int m_CurrentAmmunition;
     public int m_MagazineCap;
     public int m_MaxAmmo;
-    
+    public int m_MaxSpreadRadius;
 
+    public float m_WeaponCoolDown;
 
     protected virtual void Awake()
     {
         m_owner = GetComponent<AEntity>();
     }
 
-    public abstract void Shoot(Vector3 _start, Vector3 _dir);
-}
+    public virtual void Shoot(bool shoot)
+    {
+        if (shoot && m_WeaponCoolDown <= 0)
+        {
+            float randomRadius = m_MaxSpreadRadius;
+            randomRadius = Random.Range(0, m_MaxSpreadRadius);
 
 
-/*
-Der Bereich wo der Schuss hinfallen kann wird zufällig gesetzt
-            float randomRadius = maxSpreadRadius;
-randomRadius = Random.Range(0, maxSpreadRadius);
-
-            // Der Winkel und die tatsächliche Richtung des Schusses wird gesetzt
             float randomAngle = Random.Range(0, 2 * Mathf.PI);
 
-Vector3 direction = new Vector3(
-    randomRadius * Mathf.Cos(randomAngle),
-    randomRadius * Mathf.Sin(randomAngle),
-    15);
+            Vector3 direction = new Vector3(
+                randomRadius * Mathf.Cos(randomAngle),
+                randomRadius * Mathf.Sin(randomAngle),
+                15);
 
-direction = Camera.main.transform.TransformDirection(direction.normalized);
+            direction = this.transform.TransformDirection(direction.normalized);
 
-            // Der eigentliche Schuss findet hier statt
             RaycastHit hit;
-Ray ray = new Ray(Camera.main.transform.position, direction);
+            Ray ray = new Ray(this.transform.position, direction);
 
             if (Physics.Raycast(ray, out hit))
             {
-                gc.bulletPoint.transform.position = hit.point;
                 if (hit.transform.tag == "Enemy")
                 {
-                    hit.transform.GetComponent<EnemyController>().TakeDamage();
+                    Debug.Log(hit.transform.name + " " + hit.point);
                 }
             }
-            */
+
+            m_CurrentAmmunition--;
+        }
+
+        
+    }
+
+    public virtual void Reload()
+    {
+        if (m_CurrentAmmunition == m_MagazineCap || m_MaxAmmo <= 0)
+        {
+            return;
+        }
+
+        if (m_MaxAmmo < m_MagazineCap && m_CurrentAmmunition + m_MaxAmmo <= m_MagazineCap)
+        {
+            m_CurrentAmmunition += m_MaxAmmo;
+            m_MaxAmmo = 0;
+            return;
+        }
+        m_MaxAmmo -= m_MagazineCap - m_CurrentAmmunition;
+        m_CurrentAmmunition += m_MagazineCap - m_CurrentAmmunition;
+    }
+}
