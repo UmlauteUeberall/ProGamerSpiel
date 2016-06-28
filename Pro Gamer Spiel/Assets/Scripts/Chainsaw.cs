@@ -9,6 +9,8 @@ public class Chainsaw : AWeapon {
 
     private float audioStop = 0;
 
+    private bool alreadyPlaying = false;
+
     void Awake(){
 
         base.Awake();
@@ -24,6 +26,8 @@ public class Chainsaw : AWeapon {
         if (audioStop < 0) {
 
             //TODO AUdiostop
+
+            alreadyPlaying = false;
         }
         else {
 
@@ -37,6 +41,13 @@ public class Chainsaw : AWeapon {
         RaycastHit hit;
 
         ammunitionSeconds -= Time.deltaTime;
+
+        if (!alreadyPlaying) {
+
+            //TODO: START AUDIO
+
+            alreadyPlaying = true;
+        }
 
         if (ammunitionSeconds <= 0) {
 
