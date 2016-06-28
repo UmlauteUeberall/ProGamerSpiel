@@ -8,6 +8,7 @@ public class LaserGun : AWeapon {
     private LineRenderer lineRenderer;
 
     private float disableLineRenderer = -1;
+    private bool alreadyPlaying = false;
 
     void Awake(){
 
@@ -26,7 +27,8 @@ public class LaserGun : AWeapon {
         if (disableLineRenderer <= 0) {
 
             lineRenderer.enabled = false;
-            //Todo: Audiostop
+            AudioManager.StopLaserShot();
+            alreadyPlaying = false;
         }
         else {
 
@@ -41,6 +43,11 @@ public class LaserGun : AWeapon {
         Ray ray = new Ray(_start, _dir);
 
         RaycastHit hit;
+
+        if (!alreadyPlaying) {
+
+            AudioManager.PlayLaserShot();
+        }
 
         lineRenderer.enabled = true;
 
