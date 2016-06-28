@@ -1,27 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public abstract class AWeapon : MonoBehaviour 
+public class Pistol : AWeapon 
 {
-    protected AEntity m_owner;
 
-    public int m_Damage;
-    public int m_CurrentAmmunition;
-    public int m_MagazineCap;
-    public int m_MaxAmmo;
-    
+	// Use this for initialization
+	void Start () 
+	{
+	
+	}
+	
+	// Update is called once per frame
+	void Update () 
+	{
+	
+	}
 
-
-    protected virtual void Awake()
+    public override void Shoot(Vector3 _start, Vector3 _dir)
     {
-        m_owner = GetComponent<AEntity>();
-    }
-
-    public abstract void Shoot(Vector3 _start, Vector3 _dir);
-}
-
-
-/*
+        /*
 Der Bereich wo der Schuss hinfallen kann wird zufällig gesetzt
             float randomRadius = maxSpreadRadius;
 randomRadius = Random.Range(0, maxSpreadRadius);
@@ -49,3 +47,5 @@ Ray ray = new Ray(Camera.main.transform.position, direction);
                 }
             }
             */
+    }
+}
