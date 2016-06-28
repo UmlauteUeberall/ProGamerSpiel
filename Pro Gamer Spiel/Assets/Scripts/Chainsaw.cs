@@ -25,7 +25,7 @@ public class Chainsaw : AWeapon {
 
         if (audioStop < 0) {
 
-            //TODO: AUdiostop
+            AudioManager.StopChainsawShot();
 
             alreadyPlaying = false;
         }
@@ -44,9 +44,13 @@ public class Chainsaw : AWeapon {
 
         if (!alreadyPlaying) {
 
-            //TODO: START AUDIO
-
+            AudioManager.PlayChainsawShot();
+            audioStop = 0.1F;
             alreadyPlaying = true;
+        }
+        else {
+
+            audioStop = 0.1F;
         }
 
         if (ammunitionSeconds <= 0) {
@@ -61,7 +65,12 @@ public class Chainsaw : AWeapon {
 
             if (Vector3.Distance(transform.position, hit.point) < maxDistance) {
 
-                hit.transform.gameObject.GetComponent<AEntity>().TakeDamage(m_Damage * Time.deltaTime);
+                AEntity entity = transform.gameObject.GetComponent<AEntity>();
+
+                if (entity != null) {
+
+                    entity.TakeDamage(m_Damage * Time.deltaTime);
+                }
             }
         }
     }
