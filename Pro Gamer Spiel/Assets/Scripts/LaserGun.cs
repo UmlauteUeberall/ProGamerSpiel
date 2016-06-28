@@ -26,6 +26,7 @@ public class LaserGun : AWeapon {
         if (disableLineRenderer <= 0) {
 
             lineRenderer.enabled = false;
+            //Todo: Audiostop
         }
         else {
 
@@ -45,6 +46,7 @@ public class LaserGun : AWeapon {
 
         if (m_CurrentAmmunition >= 0 && Physics.Raycast(ray, out hit)) {
 
+            disableLineRenderer = 0.1F;
             AEntity entity = transform.gameObject.GetComponent<AEntity>();
             lineRenderer.SetPositions(new Vector3[]{ transform.position, hit.point });
 

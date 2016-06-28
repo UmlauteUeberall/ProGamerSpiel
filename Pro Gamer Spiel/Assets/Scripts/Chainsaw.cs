@@ -7,6 +7,8 @@ public class Chainsaw : AWeapon {
 
     private float ammunitionSeconds = 0;
 
+    private float audioStop = 0;
+
     void Awake(){
 
         base.Awake();
@@ -15,6 +17,18 @@ public class Chainsaw : AWeapon {
         m_CurrentAmmunition = 15;
         m_MagazineCap = 15;
         m_MaxAmmo = 90;
+    }
+
+    void Update(){
+
+        if (audioStop < 0) {
+
+            //TODO AUdiostop
+        }
+        else {
+
+            audioStop -= Time.deltaTime;
+        }
     }
 
     public override void Shoot(Vector3 _start, Vector3 _dir){
@@ -31,6 +45,8 @@ public class Chainsaw : AWeapon {
         }
 
         if (m_CurrentAmmunition >= 0 && Physics.Raycast(ray, out hit)) {
+
+            audioStop = 0.1F;
 
             if (Vector3.Distance(transform.position, hit.point) < maxDistance) {
 
