@@ -6,7 +6,7 @@ public abstract class AEntity : MonoBehaviour
     protected AWeapon m_weapon;
 
     public int m_MaxHP;
-    public int m_CurrentHP;
+    public float m_CurrentHP;
 
     protected virtual void Awake()
     {
@@ -14,7 +14,7 @@ public abstract class AEntity : MonoBehaviour
         m_CurrentHP = m_MaxHP;
     }
 
-    protected virtual void TakeDamage(int _amount)
+    public virtual void TakeDamage(float _amount)
     {
         m_CurrentHP -= _amount;
         if (m_CurrentHP <= 0)
