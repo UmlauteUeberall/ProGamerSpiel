@@ -7,6 +7,8 @@ public class AudioManager
     private static GameObject m_gunShot;
     private static GameObject m_laserShot;
     private static GameObject m_laserShotSceneObject;
+    private static GameObject m_chainsawShot;
+    private static GameObject m_chainsawSceneObject;
     private static Camera m_mainCamera;
 
     //set the audio files and the main camera
@@ -16,6 +18,7 @@ public class AudioManager
         m_ambient = Resources.Load<GameObject>("ambient");
         m_gunShot = Resources.Load<GameObject>("gunShot");
         m_laserShot = Resources.Load<GameObject>("laserShot");
+        m_chainsawShot = Resources.Load<GameObject>("chainsawShot");
         m_mainCamera = Camera.main;
 	}
 
@@ -96,6 +99,41 @@ public class AudioManager
         if (m_laserShotSceneObject != null)
         {
             GameObject.Destroy(m_laserShotSceneObject);
+        }
+    }
+
+    /// <summary>
+    /// Play the chainsaw sound
+    /// at the Audio Listener position
+    /// </summary>
+    public static void PlayChainsawShot()
+    {
+        m_chainsawSceneObject =
+            (GameObject)GameObject.Instantiate(m_chainsawShot,
+            m_mainCamera.transform.position,
+            m_mainCamera.transform.rotation);
+    }
+
+    /// <summary>
+    /// Play the chainsaw sound
+    /// at the Vector3 position
+    /// </summary>
+    /// <param name="_position">Vector3 position</param>
+    public static void PlayChainsawShot(Vector3 _position)
+    {
+        m_chainsawSceneObject =
+            (GameObject)GameObject.Instantiate(m_chainsawShot,
+            _position, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// stops playing the chainsaw sound
+    /// </summary>
+    public static void StopChainsawShot()
+    {
+        if (m_chainsawSceneObject != null)
+        {
+            GameObject.Destroy(m_chainsawSceneObject);
         }
     }
 }
