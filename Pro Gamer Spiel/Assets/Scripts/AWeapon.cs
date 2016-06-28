@@ -5,7 +5,7 @@ public abstract class AWeapon : MonoBehaviour
 {
     protected AEntity m_owner;
 
-    public int m_Damage;
+    public float m_Damage;
     public int m_CurrentAmmunition;
     public int m_MagazineCap;
     public int m_MaxAmmo;
