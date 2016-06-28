@@ -12,15 +12,39 @@ public abstract class AWeapon : MonoBehaviour
     public int m_MaxSpreadRadius;
 
     public float m_WeaponCoolDown;
+    public float m_ReloadTimeInSeconds;
+
+    public bool m_IsReloading;
+
+    public float shootCooldown;
+    public float reloadTimer;
 
     protected virtual void Awake()
     {
         m_owner = GetComponent<AEntity>();
+        shootCooldown = m_WeaponCoolDown;
+        reloadTimer = m_ReloadTimeInSeconds;
+    }
+
+    protected virtual void Update()
+    {
+        if (m_IsReloading)
+        {
+            reloadTimer -= Time.deltaTime;
+
+            if (reloadTimer <= 0)
+            {
+                reloadTimer = m_ReloadTimeInSeconds;
+                m_IsReloading = false;
+            }
+        }
+
+        shootCooldown -= Time.deltaTime;
     }
 
     public virtual void Shoot(Vector3 _start, Vector3 _dir)
     {
-        if (m_WeaponCoolDown <= 0)
+        if (shootCooldown <= 0 && !m_IsReloading)
         {
             float randomRadius = m_MaxSpreadRadius;
             randomRadius = Random.Range(0, m_MaxSpreadRadius);
@@ -46,7 +70,9 @@ public abstract class AWeapon : MonoBehaviour
                 }
             }
 
+            shootCooldown = m_WeaponCoolDown;
             m_CurrentAmmunition--;
+            
         }
 
         
@@ -59,12 +85,15 @@ public abstract class AWeapon : MonoBehaviour
             return;
         }
 
+        m_IsReloading = true;
+
         if (m_MaxAmmo < m_MagazineCap && m_CurrentAmmunition + m_MaxAmmo <= m_MagazineCap)
         {
             m_CurrentAmmunition += m_MaxAmmo;
             m_MaxAmmo = 0;
             return;
         }
+
         m_MaxAmmo -= m_MagazineCap - m_CurrentAmmunition;
         m_CurrentAmmunition += m_MagazineCap - m_CurrentAmmunition;
     }
